@@ -33,9 +33,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   };
 
   // Redirect back to home if logged in
-  // if (!isAuthenticated) {
-  //   return <Redirect to='/' />;
-  // }
+  if (!isAuthenticated) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <div>
