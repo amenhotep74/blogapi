@@ -75,15 +75,17 @@ router.get('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    const user = await User.findById(req.user.id);
     // if not post found
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
 
-    // If logged in user is not the author of the post
-    if (post.user.toString() !== req.user.id) {
+    // Is user is not admin
+    if (user.isAdmin !== true) {
       return res.status(400).json({ msg: 'User not authorized' });
     }
+    // Remove post
     await post.remove();
 
     res.json({ msg: 'Post Removed' });
