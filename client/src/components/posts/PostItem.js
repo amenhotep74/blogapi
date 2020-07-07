@@ -17,14 +17,18 @@ const PostItem = ({
         <Moment format='YYYY/MM/DD'>{date}</Moment> / AuthorID: {auth.user.name}
         <p>{text}</p>
         <button className='btn btn-success mr-1'>Read More</button>
-        <button className='btn btn-primary mr-1'>Edit</button>
-        <button
-          onClick={(e) => deletePost(_id)}
-          type='button'
-          className='btn btn-danger'
-        >
-          Delete Post
-        </button>
+        {auth.user.isAdmin && (
+          <Fragment>
+            <button className='btn btn-primary mr-1'>Edit</button>
+            <button
+              onClick={(e) => deletePost(_id)}
+              type='button'
+              className='btn btn-danger'
+            >
+              Delete Post
+            </button>
+          </Fragment>
+        )}
       </div>
     </Fragment>
   );
