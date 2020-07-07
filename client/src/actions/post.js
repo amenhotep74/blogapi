@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_POSTS, POST_ERROR, ADD_POST } from './types';
+import { GET_POSTS, POST_ERROR, ADD_POST, DELETE_POST } from './types';
 
 // Get Posts
 export const getPosts = () => async (dispatch) => {
@@ -35,8 +35,9 @@ export const addPost = (formData, history) => async (dispatch) => {
       // Receive post from backend
       payload: res.data,
     });
-    dispatch(setAlert('Post Created', 'success'));
     // Redirect to home
+    // Display Post Created alert
+    dispatch(setAlert('Post Created', 'success'));
     history.push('/');
   } catch (err) {
     const errors = err.response.data.errors;
@@ -47,6 +48,26 @@ export const addPost = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: POST_ERROR,
+    });
+  }
+};
+
+// Remove Post
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/posts/${id}`);
+
+    dispatch({
+      type: DELETE_POST,
+      payload: id,
+    });
+
+    dispatch(getPosts());
+    dispatch(setAlert('Post Removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };

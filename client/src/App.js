@@ -28,9 +28,11 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Navbar />
+        <div className='container'>
+          <Alert />
+        </div>
         <Route exact path='/' component={Home} />
         <section className='container'>
-          <Alert />
           <Switch>
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
