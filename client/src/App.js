@@ -25,6 +25,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
+        <Navbar />
         <Route exact path='/' component={Home} />
         <section className='container'>
           <Alert />

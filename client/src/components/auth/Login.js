@@ -27,7 +27,7 @@ const Login = ({ setAlert, login, isAuthenticated }) => {
   };
 
   // Redirect back to home if logged in
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 

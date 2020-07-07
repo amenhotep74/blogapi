@@ -7,4 +7,5 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
-export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const GET_POSTS = 'GET_POSTS';
+export const POST_ERROR = 'POST_ERROR';
