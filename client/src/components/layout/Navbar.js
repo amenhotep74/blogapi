@@ -17,6 +17,15 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </ul>
   );
 
+  const adminLinks = (
+    <ul>
+      <li>
+        <Link to='/createpost'>Add New Post</Link>
+      </li>
+      <li>You have admin status</li>
+    </ul>
+  );
+
   const guestLinks = (
     <ul>
       <li>
@@ -35,7 +44,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
           <Link to='/'>BlogAPI</Link>
         </h1>
         {!loading && (
-          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+          <Fragment>
+            {/* if user is logged in display admin links */}
+            {user && user.isAdmin ? adminLinks : null}
+
+            {isAuthenticated ? authLinks : guestLinks}
+          </Fragment>
         )}
       </nav>
     </div>

@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 
 const Post = require('../models/Post');
 const User = require('../models/User');
-// @route   POST api/posts
+// @route   POST /posts
 // @desc    Create a post
 // @access  Private
 router.post(
@@ -16,13 +16,18 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     try {
       const user = await User.findById(req.user.id).select('-password');
+
+      // Is user is not admin
+      if (user.isAdmin !== true) {
+        return res.status(400).json({ msg: 'User not authorized' });
+      }
 
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
-        avatar: user.avatar,
         user: req.user.id,
       });
 
@@ -30,13 +35,13 @@ router.post(
 
       res.json(post);
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
+      console.error(err);
+      return res.status(500).json({ msg: 'Server Error' });
     }
   }
 );
 
-// @route   GET /posts
+// @route   GET api/posts
 // @desc    Get all posts
 // @access  Public
 router.get('/', async (req, res) => {
