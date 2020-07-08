@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { deletePost } from '../../actions/post';
@@ -17,7 +18,9 @@ const PostItem = ({
         <span class='text-muted'>Author Name: {name} / / Date Posted: </span>
         <Moment format='YYYY/MM/DD'>{date}</Moment> / AuthorID: {name}
         <p>{text}</p>
-        <button className='btn btn-success mr-1'>Read More</button>
+        <Link to={`/${_id}`} className='btn btn-success mr-1'>
+          Read More
+        </Link>
         {auth.user && auth.user.isAdmin && (
           <Fragment>
             <button className='btn btn-primary mr-1'>Edit</button>

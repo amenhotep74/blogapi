@@ -7,7 +7,7 @@ import Home from './components/layout/Home';
 import Alert from './components/layout/Alert';
 import AddPost from './components/posts/AddPost';
 import PrivateRoute from './components/routing/PrivateRoute';
-
+import Post from './components/posts/Post';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -37,6 +37,7 @@ const App = () => {
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
             <PrivateRoute exact path='/createpost' component={AddPost} />
+            <Route exact path='/:id' component={Post} />
           </Switch>
         </section>
       </Router>
