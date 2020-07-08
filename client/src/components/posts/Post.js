@@ -6,8 +6,9 @@ import PostItem from '../posts/PostItem';
 import { getPost } from '../../actions/post';
 import CommentForm from './CommentForm';
 import Moment from 'react-moment';
+import { deleteComment } from '../../actions/post';
 
-const Post = ({ getPost, post: { post, loading }, match }) => {
+const Post = ({ getPost, deleteComment, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost]);
@@ -29,6 +30,12 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
             </span>
             <p className='text-muted'>From: {comment.name}</p>
             <p>{comment.text}</p>
+            <button
+              className='btn btn-danger'
+              onClick={(e) => deleteComment(post._id, comment._id)}
+            >
+              Delete Comment
+            </button>
           </div>
         ))}
       </div>
@@ -39,10 +46,12 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
 Post.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  deleteComment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   post: state.post,
 });
 
-export default connect(mapStateToProps, { getPost })(Post);
+export default connect(mapStateToProps, { getPost, deleteComment })(Post);

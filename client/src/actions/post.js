@@ -7,6 +7,7 @@ import {
   DELETE_POST,
   GET_POST,
   ADD_COMMENT,
+  REMOVE_COMMENT,
 } from './types';
 
 // Get Posts
@@ -115,6 +116,30 @@ export const addComment = (postID, formData) => async (dispatch) => {
     // Get Post Again
     const newres = await axios.get(`/posts/${postID}`);
 
+    dispatch({
+      type: GET_POST,
+      payload: newres.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const deleteComment = (postID, commentID) => async (dispatch) => {
+  try {
+    console.log('action called');
+    const res = await axios.delete(`/posts/comment/${postID}/${commentID}`);
+
+    dispatch({
+      type: REMOVE_COMMENT,
+      // Return comments array from backend
+      payload: res.data,
+    });
+
+    const newres = await axios.get(`/posts/${postID}`);
     dispatch({
       type: GET_POST,
       payload: newres.data,
