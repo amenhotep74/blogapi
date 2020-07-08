@@ -105,11 +105,19 @@ export const addComment = (postID, formData) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post(`/post/comment/${postID}`, formData, config);
+    const res = await axios.post(`/posts/comment/${postID}`, formData, config);
 
     dispatch({
       type: ADD_COMMENT,
       payload: res.data,
+    });
+
+    // Get Post Again
+    const newres = await axios.get(`/posts/${postID}`);
+
+    dispatch({
+      type: GET_POST,
+      payload: newres.data,
     });
   } catch (err) {
     dispatch({
