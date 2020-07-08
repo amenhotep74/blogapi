@@ -10,7 +10,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     <ul>
       <li>Welcome {user && user.name}</li>
       <li>
-        <a onClick={logout} href='#!'>
+        <a onClick={logout} href=''>
           <span>Logout</span>
         </a>
       </li>

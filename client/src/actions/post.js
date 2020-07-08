@@ -67,7 +67,7 @@ export const deletePost = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: null,
     });
   }
 };
