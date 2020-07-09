@@ -39,7 +39,6 @@ const EditForm = ({
     <Fragment>
       <div>
         <h1>Edit Post</h1>
-        <p>{post._id}</p>
         <p>{post.text}</p>
         <form onSubmit={(e) => onSubmit(e)}>
           <textarea

@@ -16,9 +16,13 @@ const PostItem = ({
   return (
     <Fragment>
       <div className='border p-1 m-3'>
-        <span class='text-muted'>Author Name: {name} / / Date Posted: </span>
-        <Moment format='YYYY/MM/DD'>{date}</Moment> / AuthorID: {name}
-        <p>{text}</p>
+        <span>
+          Date Posted:<Moment format='YYYY/MM/DD'>{date}</Moment>{' '}
+        </span>
+        <br />
+        <span class='text-muted'>Author: {name} </span>
+        <hr />
+        <p className='mt-3'>{text}</p>
         <Link to={`/${_id}`} className='btn btn-success mr-1'>
           Read More
         </Link>
