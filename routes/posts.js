@@ -103,6 +103,44 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+// @route EDIT api/posts/:id
+// @desc  Edit a post
+// @access Private
+router.put(
+  '/:id',
+  auth,
+  [check('text', 'Text is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { text } = req.body;
+
+    const newPost = {
+      text,
+    };
+
+    try {
+      const user = await User.findById(req.user.id);
+      // if user is not admin
+      if (user.isAdmin !== true) {
+        return res.status(400).json({ msg: 'User not authorized' });
+      }
+
+      const post = await Post.findOneAndUpdate(
+        { _id: req.params.id },
+        { text }
+      );
+      post.save();
+      return res.status(200).send({ msg: 'Post updated successfully' });
+    } catch (err) {
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 // @route   PUT api/posts/like/:id
 // @desc    Like a post
 // @access  Private

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 import { deletePost } from '../../actions/post';
 import auth from '../../reducers/auth';
 import { post } from 'request';
+import EditForm from './EditForm';
 
 const PostItem = ({
   deletePost,
@@ -23,7 +24,13 @@ const PostItem = ({
         </Link>
         {auth.user && auth.user.isAdmin && (
           <Fragment>
-            <button className='btn btn-primary mr-1'>Edit</button>
+            <Link
+              post={post}
+              to={`/editpost/${_id}`}
+              className='btn btn-primary mr-1'
+            >
+              Edit Post
+            </Link>
             <button
               onClick={(e) => deletePost(_id)}
               type='button'

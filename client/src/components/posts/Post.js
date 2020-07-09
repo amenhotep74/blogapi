@@ -9,13 +9,7 @@ import CommentItem from './CommentItem';
 import Moment from 'react-moment';
 import { deleteComment } from '../../actions/post';
 
-const Post = ({
-  getPost,
-  deleteComment,
-  post: { post, loading },
-  match,
-  auth,
-}) => {
+const Post = ({ getPost, post: { post, loading }, match, auth }) => {
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost]);

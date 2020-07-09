@@ -151,3 +151,15 @@ export const deleteComment = (postID, _id) => async (dispatch) => {
     });
   }
 };
+
+// edit post
+export const editPost = (formData, _id, history) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+  } catch (err) {}
+};
