@@ -1,19 +1,37 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPost } from '../../actions/post';
+import { Link, withRouter, Redirect } from 'react-router-dom';
+import Home from '../layout/Home';
+import { editPost } from '../../actions/post';
 
 const EditForm = ({
   getPost,
-  deleteComment,
   post: { post, loading },
   match,
-  auth,
+  auth: { user },
+  history,
+  editPost,
 }) => {
   // Get post using params id from URL to get post data
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost]);
+
+  const [text, setText] = useState('');
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // Dont let user submit anything if not admin
+    if (user && user.isAdmin == false) {
+      return <Redirect to={Home} />;
+    } else {
+      // form data
+      editPost({ text }, match.params.id, history);
+      setText('');
+    }
+  };
 
   return loading || post === null ? (
     <h1>loading...</h1>
@@ -23,9 +41,18 @@ const EditForm = ({
         <h1>Edit Post</h1>
         <p>{post._id}</p>
         <p>{post.text}</p>
-        <textarea name='' cols='30' rows='10'></textarea>
-        <br />
-        <input type='submit' class='btn btn-primary' />
+        <form onSubmit={(e) => onSubmit(e)}>
+          <textarea
+            name='text'
+            cols='50'
+            rows='8'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            required
+          ></textarea>
+          <br />
+          <input type='submit' class='btn btn-primary' />
+        </form>
       </div>
     </Fragment>
   );
@@ -35,11 +62,17 @@ EditForm.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  editPost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   getPost: PropTypes.func.isRequired,
+  editPost: PropTypes.func.isRequired,
   post: state.post,
+  user: state.user,
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPost })(EditForm);
+export default connect(mapStateToProps, { getPost, editPost })(
+  withRouter(EditForm)
+);

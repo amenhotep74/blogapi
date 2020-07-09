@@ -8,6 +8,7 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  EDIT_POST,
 } from './types';
 
 // Get Posts
@@ -153,7 +154,7 @@ export const deleteComment = (postID, _id) => async (dispatch) => {
 };
 
 // edit post
-export const editPost = (formData, _id, history) => {
+export const editPost = (formData, _id, history) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -161,5 +162,25 @@ export const editPost = (formData, _id, history) => {
   };
 
   try {
-  } catch (err) {}
+    const res = await axios.put(`/posts/${_id}`, formData, config);
+
+    console.log('formdata', formData);
+
+    dispatch({
+      type: EDIT_POST,
+      payload: res.data,
+    });
+
+    // Get Post Again
+    const newres = await axios.get(`/posts/${_id}`);
+    dispatch({
+      type: GET_POST,
+      payload: newres.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };

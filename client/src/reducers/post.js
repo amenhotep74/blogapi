@@ -5,6 +5,7 @@ import {
   DELETE_POST,
   GET_POST,
   ADD_COMMENT,
+  EDIT_POST,
 } from '../actions/types';
 
 const initialState = {
@@ -42,6 +43,12 @@ export default function (state = initialState, action) {
         ...state,
         // return all posts except the one that was in the payload, which is the one that was delete.
         posts: state.posts.filter((post) => POST_ERROR.id !== payload),
+        loading: false,
+      };
+    case EDIT_POST:
+      return {
+        ...state,
+        posts: payload,
         loading: false,
       };
     case POST_ERROR:
