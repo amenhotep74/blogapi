@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getPost } from '../../actions/post';
-import { Link, withRouter, Redirect } from 'react-router-dom';
-import Home from '../layout/Home';
-import { editPost } from '../../actions/post';
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getPost } from "../../actions/post";
+import { withRouter, Redirect } from "react-router-dom";
+import Home from "../layout/Home";
+import { editPost } from "../../actions/post";
 
 const EditForm = ({
   getPost,
@@ -19,7 +19,7 @@ const EditForm = ({
     getPost(match.params.id);
   }, [getPost]);
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const EditForm = ({
     } else {
       // form data
       editPost({ text }, match.params.id, history);
-      setText('');
+      setText("");
     }
   };
 
@@ -42,15 +42,15 @@ const EditForm = ({
         <p>{post.text}</p>
         <form onSubmit={(e) => onSubmit(e)}>
           <textarea
-            name='text'
-            cols='50'
-            rows='8'
+            name="text"
+            cols="50"
+            rows="8"
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
           ></textarea>
           <br />
-          <input type='submit' class='btn btn-primary' />
+          <input type="submit" class="btn btn-primary" />
         </form>
       </div>
     </Fragment>

@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://blewie144:i0JeD2iFP8o5Rzi0@cluster0-zobub.mongodb.net/blogapi?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://blewie144:13371337@cluster0.zobub.mongodb.net/blogapi?retryWrites=true&w=majority",
   "jwtSecret": "mysecrettoken"
 }

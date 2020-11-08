@@ -1,13 +1,11 @@
-import React, { useEffect, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PostItem from '../posts/PostItem';
-import { getPost } from '../../actions/post';
-import CommentForm from './CommentForm';
-import CommentItem from './CommentItem';
-import Moment from 'react-moment';
-import { deleteComment } from '../../actions/post';
+import React, { useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import PostItem from "../posts/PostItem";
+import { getPost } from "../../actions/post";
+import CommentForm from "./CommentForm";
+import CommentItem from "./CommentItem";
+import { deleteComment } from "../../actions/post";
 
 const Post = ({ getPost, post: { post, loading }, match, auth }) => {
   useEffect(() => {
