@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import axios from "axios";
+import { setAlert } from "./alert";
 import {
   GET_POSTS,
   POST_ERROR,
@@ -9,12 +9,12 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   EDIT_POST,
-} from './types';
+} from "./types";
 
 // Get Posts
 export const getPosts = () => async (dispatch) => {
   try {
-    const res = await axios.get('/posts');
+    const res = await axios.get("/posts");
 
     dispatch({
       type: GET_POSTS,
@@ -32,7 +32,7 @@ export const getPosts = () => async (dispatch) => {
 export const addPost = (formData, history) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
@@ -46,13 +46,13 @@ export const addPost = (formData, history) => async (dispatch) => {
     });
     // Redirect to home
     // Display Post Created alert
-    dispatch(setAlert('Post Created', 'success'));
-    history.push('/');
+    dispatch(setAlert("Post Created", "success"));
+    history.push("/");
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
 
     dispatch({
@@ -72,7 +72,7 @@ export const deletePost = (id) => async (dispatch) => {
     });
 
     dispatch(getPosts());
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(setAlert("Post Removed", "success"));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -93,7 +93,10 @@ export const getPost = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: {
+        msg: "There was an error getting a post",
+        status: err.response.status,
+      },
     });
   }
 };
@@ -102,7 +105,7 @@ export const getPost = (id) => async (dispatch) => {
 export const addComment = (postID, formData) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
@@ -131,7 +134,7 @@ export const addComment = (postID, formData) => async (dispatch) => {
 
 export const deleteComment = (postID, _id) => async (dispatch) => {
   try {
-    console.log('action called');
+    console.log("action called");
     const res = await axios.delete(`/posts/comment/${postID}/${_id}`);
 
     dispatch({
@@ -157,14 +160,14 @@ export const deleteComment = (postID, _id) => async (dispatch) => {
 export const editPost = (formData, _id, history) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
   try {
     const res = await axios.put(`/posts/${_id}`, formData, config);
 
-    console.log('formdata', formData);
+    console.log("formdata", formData);
 
     dispatch({
       type: EDIT_POST,

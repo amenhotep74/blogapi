@@ -25,7 +25,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       <li className="nav-item pr-1 pl-1">
         <Link to="/createpost">Add New Post</Link>
       </li>
-      <li className="nav-item pr-1 pl-1">You have admin status</li>
     </Fragment>
   );
 
