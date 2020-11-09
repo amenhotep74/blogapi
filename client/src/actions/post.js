@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 import {
+  SET_LOADING,
   GET_POSTS,
   POST_ERROR,
   ADD_POST,
@@ -15,7 +16,6 @@ import {
 export const getPosts = () => async (dispatch) => {
   try {
     const res = await axios.get("/posts");
-
     dispatch({
       type: GET_POSTS,
       payload: res.data,
@@ -180,10 +180,19 @@ export const editPost = (formData, _id, history) => async (dispatch) => {
       type: GET_POST,
       payload: newres.data,
     });
+    // set loading to true
+    dispatch({
+      type: SET_LOADING,
+      payload: res.data,
+    });
+    history.push("/");
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: {
+        msg: "There was an error editing a post.",
+        status: err.response.status,
+      },
     });
   }
 };

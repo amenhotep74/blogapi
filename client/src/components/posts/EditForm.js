@@ -5,6 +5,7 @@ import { getPost } from "../../actions/post";
 import { withRouter, Redirect } from "react-router-dom";
 import Home from "../layout/Home";
 import { editPost } from "../../actions/post";
+import Loading from "../../utils/Loader";
 
 const EditForm = ({
   getPost,
@@ -34,7 +35,7 @@ const EditForm = ({
   };
 
   return loading || post === null ? (
-    <h1>loading...</h1>
+    <Loading />
   ) : (
     <Fragment>
       <div>

@@ -16,11 +16,10 @@ const Home = ({ getPosts, post: { posts, loading } }) => {
     <Loading />
   ) : (
     <div class="posts container">
-      {posts &&
-        posts.map((post) => (
-          // pass posts down as props into postItem
-          <PostItem key={post._id} post={post} />
-        ))}
+      {posts.map((post) => (
+        // pass posts down as props into postItem
+        <PostItem key={post._id} post={post} />
+      ))}
     </div>
   );
 };

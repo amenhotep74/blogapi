@@ -136,7 +136,7 @@ router.put(
       post.save();
       return res.status(200).send({ msg: "Post updated successfully" });
     } catch (err) {
-      res.status(500).send("Server Error");
+      return res.status(500).send("Server Error");
     }
   }
 );
