@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+import "./Navbar.css";
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <Fragment>
-      <li className="nav-item mr-2 ml-1">Welcome, {user && user.name}</li>
+      <li className="nav-item mr-2 ml-1 logout">
+        Welcome, {user && user.name}
+      </li>
       <li className="nav-item">
         <a onClick={logout} href="">
           <span>Logout</span>
@@ -43,7 +46,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <h1>
           <Link class="navbar-brand" to="/">
             BlogAPI

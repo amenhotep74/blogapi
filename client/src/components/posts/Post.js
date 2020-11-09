@@ -6,14 +6,15 @@ import { getPost } from "../../actions/post";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 import { deleteComment } from "../../actions/post";
+import Loading from "../../utils/Loader";
 
-const Post = ({ getPost, post: { post, loading }, match, auth }) => {
+const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost]);
 
   return loading || post === null ? (
-    <h1>Loading...</h1>
+    <Loading />
   ) : (
     <Fragment>
       <PostItem post={post} />
@@ -31,7 +32,7 @@ const Post = ({ getPost, post: { post, loading }, match, auth }) => {
 Post.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
+  // auth: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
 };
 

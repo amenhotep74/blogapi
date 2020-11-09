@@ -14,7 +14,7 @@ const PostItem = ({
 }) => {
   return (
     <Fragment>
-      <div className="border p-1 m-3">
+      <div className="border p-3 m-3">
         <span>
           Date Posted:<Moment format="YYYY/MM/DD">{date}</Moment>{" "}
         </span>

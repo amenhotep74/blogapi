@@ -1,16 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const auth = require('../middleware/auth');
+const { check, validationResult } = require("express-validator");
+const auth = require("../middleware/auth");
 
-const Post = require('../models/Post');
-const User = require('../models/User');
+const Post = require("../models/Post");
+const User = require("../models/User");
 // @route   POST /posts
 // @desc    Create a post
 // @access  Private
 router.post(
-  '/',
-  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  "/",
+  [auth, [check("text", "Text is required").not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -18,11 +18,11 @@ router.post(
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select("-password");
 
       // Is user is not admin
       if (user.isAdmin !== true) {
-        return res.status(400).json({ msg: 'User not authorized' });
+        return res.status(400).json({ msg: "User not authorized" });
       }
 
       const newPost = new Post({
@@ -36,7 +36,7 @@ router.post(
       res.json(post);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ msg: 'Server Error' });
+      return res.status(500).json({ msg: "Server Error" });
     }
   }
 );
@@ -44,7 +44,7 @@ router.post(
 // @route   GET api/posts
 // @desc    Get all posts
 // @access  Public
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
     res.json(posts);
@@ -56,50 +56,50 @@ router.get('/', async (req, res) => {
 // @route   GET api/posts/:id
 // @desc    Get post by ID
 // @access  Private
-router.get('/:id', auth, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: "Post not found" });
     }
 
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Post not found' });
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not found" });
     }
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route   DELETE api/posts/:id
 // @desc    Delete a post
 // @access  Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     const user = await User.findById(req.user.id);
     // if not post found
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: "Post not found" });
     }
 
     // Is user is not admin
     if (user.isAdmin !== true) {
-      return res.status(400).json({ msg: 'User not authorized' });
+      return res.status(400).json({ msg: "User not authorized" });
     }
     // Remove post
     await post.remove();
 
-    res.json({ msg: 'Post Removed' });
+    res.json({ msg: "Post Removed" });
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Post not found' });
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not found" });
     }
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -107,9 +107,9 @@ router.delete('/:id', auth, async (req, res) => {
 // @desc  Edit a post
 // @access Private
 router.put(
-  '/:id',
+  "/:id",
   auth,
-  [check('text', 'Text is required').not().isEmpty()],
+  [check("text", "Text is required").not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -126,7 +126,7 @@ router.put(
       const user = await User.findById(req.user.id);
       // if user is not admin
       if (user.isAdmin !== true) {
-        return res.status(400).json({ msg: 'User not authorized' });
+        return res.status(400).json({ msg: "User not authorized" });
       }
 
       const post = await Post.findOneAndUpdate(
@@ -134,9 +134,9 @@ router.put(
         { text }
       );
       post.save();
-      return res.status(200).send({ msg: 'Post updated successfully' });
+      return res.status(200).send({ msg: "Post updated successfully" });
     } catch (err) {
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -144,7 +144,7 @@ router.put(
 // @route   PUT api/posts/like/:id
 // @desc    Like a post
 // @access  Private
-router.put('/like/:id', auth, async (req, res) => {
+router.put("/like/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -153,7 +153,7 @@ router.put('/like/:id', auth, async (req, res) => {
       post.likes.filter((like) => like.user.toString() === req.user.id).length >
       0
     ) {
-      return res.status(400).json({ msg: 'Post already liked' });
+      return res.status(400).json({ msg: "Post already liked" });
     }
 
     post.likes.unshift({ user: req.user.id });
@@ -163,14 +163,14 @@ router.put('/like/:id', auth, async (req, res) => {
     return res.json(post.likes);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route   PUT api/posts/unlike/:id
 // @desc    unlike a post
 // @access  Private
-router.put('/unlike/:id', auth, async (req, res) => {
+router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -179,7 +179,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
       post.likes.filter((like) => like.user.toString() === req.user.id)
         .length === 0
     ) {
-      return res.status(400).json({ msg: 'Post has not yet been liked' });
+      return res.status(400).json({ msg: "Post has not yet been liked" });
     }
 
     // Get correct like to remove
@@ -194,7 +194,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
     res.json(post.likes);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -202,15 +202,15 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @desc    Comment on a post
 // @access  Private
 router.post(
-  '/comment/:id',
-  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  "/comment/:id",
+  [auth, [check("text", "Text is required").not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select("-password");
       const post = await Post.findById(req.params.id);
 
       const newComment = {
@@ -226,7 +226,7 @@ router.post(
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -234,14 +234,14 @@ router.post(
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Delete comment
 // @access  Private
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select("-password");
 
     // Is user is not admin
     if (user.isAdmin !== true) {
-      return res.status(400).json({ msg: 'User not authorized' });
+      return res.status(400).json({ msg: "User not authorized" });
     }
 
     // Pull out comment
@@ -251,12 +251,12 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     // Make sure comment exists
     if (!comment) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
+      return res.status(404).json({ msg: "Comment does not exist" });
     }
 
     // Check user
     if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: "User not authorized" });
     }
 
     // Get remove index
@@ -270,7 +270,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     res.json(post.comments);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 

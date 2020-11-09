@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { getPosts } from '../../actions/post';
-import PostItem from '../posts/PostItem';
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { getPosts } from "../../actions/post";
+import PostItem from "../posts/PostItem";
+import { connect } from "react-redux";
+import Loading from "../../utils/Loader";
 
 const Home = ({ getPosts, post: { posts, loading } }) => {
   // Fetch posts when component loads
@@ -12,13 +13,14 @@ const Home = ({ getPosts, post: { posts, loading } }) => {
 
   // If loading return loading else return postslist
   return loading ? (
-    <h1>Loading...</h1>
+    <Loading />
   ) : (
-    <div class='posts container'>
-      {posts.map((post) => (
-        // pass posts down as props into postItem
-        <PostItem key={post._id} post={post} />
-      ))}
+    <div class="posts container">
+      {posts &&
+        posts.map((post) => (
+          // pass posts down as props into postItem
+          <PostItem key={post._id} post={post} />
+        ))}
     </div>
   );
 };

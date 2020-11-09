@@ -11,14 +11,14 @@ const CommentItem = ({
   deleteComment,
 }) => {
   return (
-    <div className="comment-section">
-      <div className="border mb-3">
+    <div className="comment-section mt-3">
+      <div className="border mb-3 p-3">
         <span className="text-muted">
           <Moment format="YYYY/MM/DD">{date}</Moment>
         </span>
         <p className="text-muted">From: {name}</p>
         <p>{text}</p>
-        {auth.user.isAdmin && (
+        {auth.user && auth.user.isAdmin && (
           <button
             className="btn btn-danger"
             onClick={(e) => deleteComment(postID, _id)}
